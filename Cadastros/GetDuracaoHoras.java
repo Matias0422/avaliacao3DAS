@@ -8,21 +8,42 @@ public class GetDuracaoHoras {
 		this.viagem = viagem;
 	}
 	
+	public void setZeroDuracaoHoras() {
+		duracaoHoras = 0;
+	}
+	
+	public void setUmDuracaoHoras() {
+		duracaoHoras = 1;
+	}
+	
+	public boolean minutosTerminioMenorQueInicio() {
+		if (viagem.getMinutosTermino() < viagem.getMinutoInicio()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public int horaTerminioMenosInicio() {
+		return viagem.getHoraTermino() - viagem.getHoraInicio();
+	}
+	
+
 	public int compute() {
 		if (viagem.getHoraTermino() == viagem.getHoraInicio())
-			duracaoHoras = 0;
+			setZeroDuracaoHoras();
 		if (viagem.getHoraTermino() > viagem.getHoraInicio()) //varias possibilidades... 
 			if (viagem.getHoraTermino() == viagem.getHoraInicio() + 1) {  
-				if (viagem.getMinutosTermino() < viagem.getMinutoInicio())  //nao chegou a uma hora
-					duracaoHoras = 0;
+				if (minutosTerminioMenorQueInicio())  //nao chegou a uma hora
+					setZeroDuracaoHoras();
 				else //durou pelo menos uma hora
-					duracaoHoras = 1;
+					setUmDuracaoHoras();
 			} else { //possivelmente ultrapassou duas horas
-				if (viagem.getHoraTermino() - viagem.getHoraInicio() > 2) //
-					duracaoHoras = viagem.getHoraTermino() - viagem.getHoraInicio();
-				else if (viagem.getHoraTermino() - viagem.getHoraInicio() == 2 &&   //certamente menos de duas horas  
-						viagem.getMinutosTermino() < viagem.getMinutoInicio())    //e mais de uma hora
-					duracaoHoras = 1;
+				if (horaTerminioMenosInicio() > 2) //
+					duracaoHoras = horaTerminioMenosInicio();
+				else if (horaTerminioMenosInicio() == 2 &&   //certamente menos de duas horas  
+						minutosTerminioMenorQueInicio())    //e mais de uma hora
+					setUmDuracaoHoras();
 				else //duracao de duas horas, certamente
 					duracaoHoras = 2;
 					

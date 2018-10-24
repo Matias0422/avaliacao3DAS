@@ -53,5 +53,5 @@ public class Viagem {
 		duracaoTotalMinutos = getDuracaoHoras() * 60 + getDuracaoMinutos();
 		return duracaoTotalMinutos;
 	}
-
+	
 }
